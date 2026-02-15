@@ -1,0 +1,27 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ':443'
+    http3: {}
+
+api:
+  dashboard: true
+  insecure: false  # Set to false and use auth in production
+
+providers:
+  docker:
+    watch: true
+    exposedByDefault: false
+  file:
+    filename: /traefik_dynamic.yml
+

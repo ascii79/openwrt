@@ -1,0 +1,80 @@
+
+config dnsmasq
+	option domainneeded '1'
+	option localise_queries '1'
+	option rebind_protection '0'
+	option local '/lan/'
+	option domain 'lan'
+	option expandhosts '1'
+	option cachesize '1000'
+	option authoritative '1'
+	option readethers '1'
+	option leasefile '/tmp/dhcp.leases'
+	option resolvfile '/tmp/resolv.conf.d/resolv.conf.auto'
+	option localservice '1'
+	option ednspacket_max '1232'
+
+config dhcp 'lan'
+	option interface 'lan'
+	option start '100'
+	option limit '150'
+	option leasetime '12h'
+	option dhcpv4 'server'
+	option dhcpv6 'relay'
+	option ra 'relay'
+	option ndp 'relay'
+
+config dhcp 'wan'
+	option interface 'wan'
+	option ignore '1'
+
+config odhcpd 'odhcpd'
+	option maindhcp '0'
+	option leasefile '/tmp/hosts/odhcpd'
+	option leasetrigger '/usr/sbin/odhcpd-update'
+	option loglevel '4'
+	option piofolder '/tmp/odhcpd-piofolder'
+
+config dhcp 'wan6'
+	option interface 'wan6'
+	option ignore '1'
+	option master '1'
+	option ra 'relay'
+	option dhcpv6 'relay'
+	option ndp 'relay'
+
+config host
+	option name 'cam2'
+	list mac '08:EA:40:E0:4F:C8'
+	option ip '192.168.1.132'
+
+config host
+	option name 'cam3'
+	list mac '08:EA:40:E0:9C:3F'
+	option ip '192.168.1.133'
+
+config host
+	option name 'cam1'
+	list mac '08:EA:40:E0:F9:45'
+	option ip '192.168.1.131'
+
+config host
+	option name 'sonytv'
+	list mac '1C:D6:BE:B7:94:E8'
+
+config host
+	option name 'onntv'
+	list mac '30:95:87:A1:23:55'
+
+config host
+	option name 'kindle'
+	list mac 'A0:02:DC:52:58:CB'
+
+config host
+	option name 'dynalink'
+	list mac '10:2C:6B:7D:0F:5E'
+
+config host
+	option name 'samsungtv'
+	list mac 'F4:7B:5E:E4:F6:8D'
+

@@ -1,0 +1,81 @@
+
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'fdd0:9cf5:fe9b::/48'
+	option packet_steering '1'
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'lan1'
+	list ports 'lan2'
+	list ports 'lan3'
+	list ports 'eth1'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '192.168.1.1'
+	option netmask '255.255.255.0'
+	option ip6assign '60'
+	list dns '8.8.8.8'
+	list dns '8.8.4.4'
+
+config device
+	option name 'br-wan'
+	option type 'bridge'
+	list ports 'wan'
+	list ports 'eth2'
+
+config device
+	option name 'wan'
+	option macaddr 'e2:73:18:54:52:78'
+
+config device
+	option name 'eth2'
+	option macaddr 'e2:73:18:54:52:78'
+
+config interface 'wan'
+	option device 'br-wan'
+	option proto 'dhcp'
+	option peerdns '0'
+	list dns '8.8.8.8'
+	list dns '8.8.4.4'
+
+config interface 'wan6'
+	option device 'br-wan'
+	option proto 'dhcpv6'
+	option reqaddress 'try'
+	option reqprefix 'auto'
+	option norelease '1'
+
+config interface 'docker'
+	option device 'docker0'
+	option proto 'none'
+	option auto '0'
+
+config device
+	option type 'bridge'
+	option name 'docker0'
+
+config interface 'immich_default'
+	option proto 'none'
+	option device 'br-5621caeae350'
+
+config interface 'tailscale_default'
+	option proto 'none'
+	option device 'br-8b54f9a70fef'
+
+config interface 'syncthing_default'
+	option proto 'none'
+	option device 'br-7b34980478bd'
+
+config interface 'watchtower_default'
+	option proto 'none'
+	option device 'br-e973b72f433d'
+

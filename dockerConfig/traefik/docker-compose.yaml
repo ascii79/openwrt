@@ -1,0 +1,29 @@
+services:
+  cert-generator:
+    image: alpine:latest
+    command: >
+      sh -c "
+        apk add openssl &&
+        mkdir -p /certs &&
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/CN=localhost' -keyout /certs/selfsigned.key -out /certs/selfsigned.crt
+      "
+    volumes:
+      - /mnt/nvme0n1p2/dockerData/certs:/certs:rw
+    restart: "no"
+    container_name: cert-generator
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+      - '8443:443'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yml:/traefik.yml:ro
+      - ./traefik_dynamic.yml:/traefik_dynamic.yml:ro
+      - /mnt/nvme0n1p2/dockerData/certs:/certs:ro
+    depends_on:
+      cert-generator:
+        condition: service_completed_successfully

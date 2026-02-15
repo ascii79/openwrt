@@ -1,0 +1,9 @@
+services:
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    env:
+      - name: TZ
+        value: Europe/Berlin

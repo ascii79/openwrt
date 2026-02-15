@@ -1,0 +1,13 @@
+services:
+  immich-server:
+    volumes:
+      - /mnt/ext-a/Phonepix/pixel6/Camera:/mnt/ext-a/Phonepix/pixel6/Camera
+      - /mnt/ext-a/Phonepix/pixel9-fold:/mnt/ext-a/Phonepix/pixel9-fold
+      - /mnt/ext-a/Phonepix/pixel7a:/mnt/ext-a/Phonepix/pixel7a
+      - /mnt/ext-a/Pictures:/mnt/ext-a/Pictures
+
+  redis:
+    command:                                                                                                                        
+      - redis-server                                                                                                                
+      - --ignore-warnings                                                                                                           
+      - ARM64-COW-BUG

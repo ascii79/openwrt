@@ -1,0 +1,126 @@
+# UCI example configuration file for ip6neigh script
+# Default values will be assumed for options that are left undefined/commented out.
+
+config ip6neigh 'config'
+
+	# LAN interface logical name. Default: 'lan'
+	#option lan_iface	'lan'
+	
+	# IPv6 WAN interface logical name. Default: 'wan6'
+	#option wan_iface	'wan6'
+	
+	# Wipe global addresses from LAN interface when WAN goes down. Should be
+	# enabled if the ISP does prefix delegation with dynamic prefix.
+	# 0=disabled, 1=enabled. Default: '0'
+	#option lan_wipe		'1'
+	
+	# Top-level domain name for local hosts. Will load the option domain from
+	# /etc/config/dhcp if not specified here. Default: 'lan'
+	#option domain		'lan'
+	
+	# Name to be given to the router's IPv6 addresses. Corresponding labels will
+	# be appended for each scope of address. Use '0' if you want to disable this
+	# feature. Default: 'Router'
+	#option router_name	'0'
+	
+	# Enable Duplicate Address Detection (DAD) snooping feature. Requires package
+	# tcpdump. If enabled, ip6neigh will instantly detect when a new host joins the
+	# network and will be able to see all the IPv6 addresses took by that host.
+	# Using this feature is highly recommended if you have more than 32 MB of RAM
+	# and enough flash space to install tcpdump. If the LAN interface is bridged,
+	# this will disable IGMP snooping on the bridge configuration.
+	# 0=disabled, 1=enabled. Default: '0'
+	#option dad_snoop	'1'
+
+	# When a new address is discovered, auto probe for other addresses based
+	# on the host's MAC address.
+	# 0=disabled, 1=all scopes, 2=same scope. Default: '1'
+	#option probe_eui64	'0'
+
+	# When a new address is discovered, auto probe for other addresses with
+	# the same interface identifier but with different prefixes. 
+	# 0=disabled, 1=enabled. Default: '1'
+	#option probe_iid	'0'
+	
+	# When a new address is discovered, probe any other addresses that belong
+	# to that same host to update their reachability status. 
+	# 0=disabled, 1=enabled. Default: '1'
+	#option probe_host	'0'
+
+	# Custom label for link-local addresses. Writing '0' clears the label.
+	# Default: 'LL'
+	#option lla_label	'0'
+
+	# Label for LAN Unique Local Addresses (ULA). Writing '0' clears the label.
+	# Default is no label for ULAs.
+	#option ula_label	'ULA'
+	
+	# Label for Unique Local Addresses (ULA) inherited from the WAN network.
+	# Writing '0' clears the label. Defaults to 'ULA' if the network has ULA prefix
+	# and no label if the network does not have ULA prefix. This is useful if you
+	# have cascaded routers with this router taking a delegated or relayed ULA
+	# prefix from the upstream router.
+	#option wula_label	'0'
+
+	# Label for Globally Unique Addresses (GUA). Writing '0' clears the label.
+	# Defaults to 'GUA' if the network has ULA or WULA prefix and no label if the
+	# network does not have neither ULA nor WULA prefix.
+	#option gua_label	'0'
+	
+	# This label will be applied to addresses with prefix that does not match
+	# either the link-local prefix or the ULA/WULA/GUA prefix of the router's LAN
+	# interface. Writing '0' clears the label. If the label is cleared, any address
+	# starting with 'fd' will be considered as ULA and any other global address will
+	# be considered as GUA (WULA distinction will also be disabled as a side effect).
+	# Default: 'UNROUTED'
+	#option unrouted_label	'UNROUTED'
+
+	# Secondary label for temporary, aka privacy (RFC 4941) addresses. Will also be
+	# applied to addresses with Stable Semantically Opaque IIDs (RFC 7217), as
+	# currently there is no way to automatically distinguish them from RFC 4941.
+	# Writing '0' clears the label.
+	# Default: 'TMP'
+	#option tmp_label	'0'
+	
+	# Secondary label for managed addresses. Will be applied to any addresses with
+	# IID that have their first 32 bits matching a router's address on the LAN iface.
+	# Writing '0' clears the label.
+	# Default: 'MAN'
+	#option man_label	'0'
+
+	# Get names from DHCPv6 leases. 0=disabled, 1=enabled.
+	# Default: '1'
+	#option dhcpv6_names	'0'
+	
+	# Get names from DHCPv4 leases. 0=disabled, 1=enabled.
+	# Default: '1'
+	#option dhcpv4_names	'0'
+	
+	# Generate names based on the manufacturer of the device if DHCPv6/v4 names
+	# are not available. 0=disabled, 1=enabled.
+	# Default: '1'
+	#option manuf_names	'0'
+
+	# Enable loading of predefined static or MAC-based IIDs from /etc/config/dhcp.
+	# 0=disabled, 1=enabled. Default: '1'
+	#option load_static	'0'
+	
+	# Flush the neighbors table on startup. Add together the values corresponding
+	# to each NUD status.
+	# 1=PERMANENT, 2=STALE, 4=REACHABLE
+	# Example: Flush PERMANENT and STALE neighbors on startup: option flush '3'
+	# Default: '1'
+	#option flush	'1'
+	
+	# List of user firewall script files. If defined, ip6neigh will call these
+	# scripts upon start, after populating the hosts file with predefined hosts
+	# from /etc/config/dhcp. Useful for creating firewall rules for global addresses
+	# with dynamic prefix. The environmental variables passed to the script are:
+	# DOMAIN LAN_DEV WAN_DEV ULA_ADDR ULA_PREFIX GUA_ADDR GUA_PREFIX
+	#list fw_script		'/root/file_server.sh'
+	#list fw_script		'/root/other_server.sh'
+
+	# Enable logging of debug messages. Options are '0' for disabled, '1' to use
+	# syslog or 'file name' if you want to log to a file instead.
+	# Default: '0'
+	option log		'/tmp/log/ip6neigh.log'

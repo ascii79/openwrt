@@ -1,0 +1,82 @@
+http:
+  routers:
+    api:
+      rule: "Host(`t.192.168.1.1.nip.io`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - auth
+        - compress
+        - hsts
+      service: api@internal
+      tls: {}
+
+    immich:
+      rule: "Host(`i.192.168.1.1.nip.io`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - compress
+        - hsts
+      service: immich-service
+      tls: {}
+
+    luci:
+      rule: "Host(`192.168.1.1`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - compress
+        - hsts
+      service: luci-service
+      tls: {}
+
+    syncthing:
+      rule: "Host(`s.192.168.1.1.nip.io`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - compress
+        - hsts
+      service: syncthing-service
+      tls: {}
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "admin:$2a$12$JOs6hTh9rs22NH7bgGd6BO/A4sczAvY9/2tw7xb5iAwLMCxQZrJU6"
+
+    compress:
+      compress: {}
+
+    hsts:
+      headers:
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+
+  services:
+    immich-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.1:2283"
+
+    luci-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.1:8080"
+
+    syncthing-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.1:8384"
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/selfsigned.crt
+        keyFile: /certs/selfsigned.key
+
+
