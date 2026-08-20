@@ -17,7 +17,7 @@ config globals 'globals'
 #	option fixed_cidr_v6 'fc00:1::/80'
 #	option ipv6 '1'
 #	option ip '::ffff:0.0.0.0'
-	list dns '172.17.0.1'
+        list dns '172.17.0.1'
 #	list registry_mirrors 'https://<my-docker-mirror-host>'
 #	list registry_mirrors 'https://hub.docker.com'
 
@@ -42,4 +42,4 @@ config proxies 'proxies'
 config firewall 'firewall'
 	option device 'docker0'
 	list blocked_interfaces 'wan'
-	option extra_iptables_args '--match conntrack ! --ctstate RELATED,ESTABLISHED' # allow outbound connections
+        option extra_iptables_args '--match conntrack ! --ctstate RELATED,ESTABLISHED' # allow outbound connections

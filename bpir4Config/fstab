@@ -8,12 +8,12 @@ config 'global'
 
 config 'mount'
 	option	target	'/rom'
-	option	uuid	'39cc63ce-14fda2f1-7a5ca191-64f67169'
+	option	uuid	'e3b6fb66-47163b51-034f1ee0-5564fcda'
 	option	enabled	'0'
 
 config 'mount'
 	option	target	'/overlay'
-	option	uuid	'b16967cf-8553-4497-85d9-8ce733560504'
+	option	uuid	'f97bc358-0a3d-4aa6-aeae-76d16c4ca427'
 	option	enabled	'0'
 
 config mount
